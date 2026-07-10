@@ -7,9 +7,9 @@ import Nav from "@/components/Nav";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "HOOD — Mint the Movement",
+  title: "HOODZ — Mint the Movement",
   description:
-    "HOOD is a collection of 1,000 hooded operators on Solana. Commission-free minting for the people.",
+    "HOODZ is a collection of 1,000 hooded operators on Solana. Commission-free minting for the people.",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
           <div className="flex-1">{children}</div>
           <footer className="border-t border-line mt-24 py-10 text-center text-sm text-mute">
             <p>
-              HOOD is a parody art collection. Not affiliated with Robinhood
+              HOODZ is a parody art collection. Not affiliated with Robinhood
               Markets. Not financial advice — it&apos;s better.
             </p>
           </footer>

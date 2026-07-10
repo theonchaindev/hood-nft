@@ -44,7 +44,7 @@ export default function PortfolioPage() {
       <div className="mt-6 grid max-w-lg grid-cols-2 gap-3">
         <div className="rounded-2xl border border-line bg-panel px-5 py-4">
           <p className="font-mono text-2xl font-bold text-hood-bright">{owned.length}</p>
-          <p className="text-xs text-mute">HOODs held</p>
+          <p className="text-xs text-mute">HOODZ held</p>
         </div>
         <div className="rounded-2xl border border-line bg-panel px-5 py-4">
           <p className="font-mono text-2xl font-bold text-hood-bright">
@@ -61,7 +61,7 @@ export default function PortfolioPage() {
             href="/mint"
             className="mt-6 inline-block rounded-full bg-hood px-8 py-3 font-bold text-ink transition-transform hover:scale-105"
           >
-            Mint your first HOOD
+            Mint your first HOODZ
           </Link>
         </div>
       ) : (

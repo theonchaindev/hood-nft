@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { HoodNft, RARITY_COLORS } from "@/lib/nfts";
 import { useHood } from "@/context/HoodContext";
-import HoodArt from "./HoodArt";
+import NftImage from "./NftImage";
 
 type Stage = "review" | "processing" | "filled";
 
@@ -46,7 +46,7 @@ export default function MintModal({
       >
         <div className="grid sm:grid-cols-2">
           <div className="relative">
-            <HoodArt nft={nft} className="block h-full w-full object-cover" />
+            <NftImage nft={nft} className="block h-full w-full object-cover" />
             {stage === "processing" && (
               <div className="absolute inset-0 flex items-center justify-center bg-ink/70">
                 <div className="h-14 w-14 animate-spin rounded-full border-4 border-line border-t-hood" />

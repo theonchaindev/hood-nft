@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { getAllNfts, getNft, HoodNft, RARITY_COLORS, TOTAL_SUPPLY } from "@/lib/nfts";
 import { useHood } from "@/context/HoodContext";
-import HoodArt from "@/components/HoodArt";
+import NftImage from "@/components/NftImage";
 import NftCard from "@/components/NftCard";
 import MintModal from "@/components/MintModal";
 import Ticker from "@/components/Ticker";
 
-const FEATURED_IDS = [773, 292, 758, 77, 214, 842, 128, 610];
-const HERO_ID = 666;
+const FEATURED_IDS = [123, 276, 430, 502, 537, 573, 758, 896];
+const HERO_ID = 773;
 
 export default function Home() {
   const { minted, wallet } = useHood();
@@ -38,7 +38,7 @@ export default function Home() {
           <h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl">
             Investing was for them.
             <br />
-            <span className="text-hood">The HOOD</span> is for you.
+            <span className="text-hood">The HOODZ</span> are for you.
           </h1>
           <p className="mt-5 max-w-md text-lg text-mute">
             1,000 hooded operators trading from the shadows. Zero commission,
@@ -80,7 +80,7 @@ export default function Home() {
             onClick={() => setSelected(hero)}
             className="animate-float relative block w-full overflow-hidden rounded-3xl border border-hood/30 shadow-[0_20px_80px_rgba(0,200,5,0.25)]"
           >
-            <HoodArt nft={hero} className="block w-full" />
+            <NftImage nft={hero} className="block w-full" />
           </button>
           <p className="mt-3 text-center text-sm text-mute">
             {hero.name} · <span style={{ color: RARITY_COLORS[hero.rarity] }}>{hero.rarity}</span>
@@ -95,7 +95,7 @@ export default function Home() {
         <div className="mb-6 flex items-end justify-between">
           <div>
             <h2 className="text-3xl font-extrabold">Trending Operators</h2>
-            <p className="mt-1 text-mute">Most-watched HOODs this hour.</p>
+            <p className="mt-1 text-mute">Most-watched HOODZ this hour.</p>
           </div>
           <Link href="/mint" className="text-sm font-bold text-hood-bright hover:underline">
             View all 1,000 →
@@ -118,8 +118,8 @@ export default function Home() {
       <section id="rarity" className="mx-auto max-w-6xl px-4 pt-20">
         <h2 className="text-3xl font-extrabold">Rarity Tiers</h2>
         <p className="mt-1 text-mute">
-          Every HOOD is generated from weighted traits — backgrounds, hoods,
-          eyes, accessories and auras. Rarer combos, higher tier.
+          Every HOODZ is generated from weighted traits — backgrounds, hood
+          materials, faces, hats and accessories. Rarer combos, higher tier.
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-5">
           {(["Common", "Uncommon", "Rare", "Epic", "Legendary"] as const).map((r) => (
@@ -149,12 +149,12 @@ export default function Home() {
             {
               step: "02",
               title: "Pick your operator",
-              body: "Browse all 1,000 HOODs with live trait and rarity data. Filter by tier, hunt the Legendaries.",
+              body: "Browse all 1,000 HOODZ with live trait and rarity data. Filter by tier, hunt the Legendaries.",
             },
             {
               step: "03",
               title: "Mint & hold",
-              body: "Confirm the order and your HOOD lands in your portfolio. Diamond hands optional but encouraged.",
+              body: "Confirm the order and your HOODZ lands in your portfolio. Diamond hands optional but encouraged.",
             },
           ].map((s) => (
             <div key={s.step} className="rounded-2xl border border-line bg-panel p-6">
@@ -170,7 +170,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 pt-20">
         <div className="relative overflow-hidden rounded-3xl border border-hood/30 bg-panel p-10 text-center md:p-16">
           <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hood/15 blur-3xl" />
-          <h2 className="relative text-4xl font-black">The market never sleeps. Neither does the HOOD.</h2>
+          <h2 className="relative text-4xl font-black">The market never sleeps. Neither do the HOODZ.</h2>
           <p className="relative mx-auto mt-3 max-w-lg text-mute">
             {TOTAL_SUPPLY - mintedCount} operators still unminted. When they&apos;re gone, they&apos;re gone.
           </p>

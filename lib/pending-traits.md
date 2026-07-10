@@ -19,3 +19,5 @@ cutoffs — only safe before any real minting happens.
 Re-paint needed (first attempt too weak):
 - Chef Hat (came out as a formless white blob)
 - Smoke face (flat gray mask instead of wispy smoke)
+
+Removed by user preference (do NOT re-add): Rose, Floating Cards, Coffee, Lollipop

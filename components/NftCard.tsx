@@ -1,7 +1,7 @@
 "use client";
 
 import { HoodNft, RARITY_COLORS } from "@/lib/nfts";
-import HoodArt from "./HoodArt";
+import NftImage from "./NftImage";
 
 export default function NftCard({
   nft,
@@ -20,7 +20,7 @@ export default function NftCard({
       className="group relative overflow-hidden rounded-2xl border border-line bg-panel text-left transition-all hover:-translate-y-1 hover:border-hood/60 hover:shadow-[0_8px_40px_rgba(0,200,5,0.15)]"
     >
       <div className="relative">
-        <HoodArt nft={nft} className="block w-full" />
+        <NftImage nft={nft} className="block w-full" />
         {(owned || mintedByOther) && (
           <div className="absolute inset-0 flex items-start justify-end bg-ink/30 p-2">
             <span

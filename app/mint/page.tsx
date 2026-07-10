@@ -36,7 +36,7 @@ export default function MintPage() {
     <main className="mx-auto max-w-6xl px-4 pt-10">
       <h1 className="text-4xl font-black">The Collection</h1>
       <p className="mt-1 text-mute">
-        {filtered.length.toLocaleString()} operators{tier !== "All" ? ` · ${tier}` : ""} — tap any HOOD to review and mint.
+        {filtered.length.toLocaleString()} operators{tier !== "All" ? ` · ${tier}` : ""} — tap any HOODZ to review and mint.
       </p>
 
       {/* filters */}

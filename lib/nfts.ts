@@ -106,12 +106,12 @@ export const HATS: WeightedTrait[] = [
 
 export const ACCESSORIES: WeightedTrait[] = [
   w("None", 18), w("Gold Chain", 4.5), w("Silver Chain", 4),
-  w("Cigar", 3.5), w("Sunglasses", 3.5), w("Coffee", 3.2),
-  w("Lollipop", 3), w("Bubblegum", 3), w("Rose", 2.8), w("Pipe", 2.6),
+  w("Cigar", 3.5), w("Sunglasses", 3.5),
+  w("Bubblegum", 3), w("Pipe", 2.6),
   w("Energy Drink", 2.5), w("AirPods", 2.4), w("Earring", 2.4),
   w("Baseball Bat", 2.2), w("Pixel Glasses", 2.2), w("Nose Ring", 2),
   w("Frog", 1.9), w("Snake", 1.8), w("Mini Ghost", 1.8),
-  w("Shoulder Raven", 1.7), w("Monocle", 1.6), w("Floating Cards", 1.5),
+  w("Shoulder Raven", 1.7), w("Monocle", 1.6),
   w("Katana", 1.5),
   w("Hearts", 1.3), w("Stars", 1.2), w("Skulls", 1.2), w("Smoke", 1.1),
   w("Ice Aura", 1.1), w("Emerald Chain", 1), w("Rose Gold Chain", 1),
