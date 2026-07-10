@@ -793,6 +793,7 @@ const PAINTED: Record<"face" | "hat" | "acc", Record<string, string>> = {
     "Graduation Cap": "hat-graduation", "Top Hat": "hat-tophat",
     "Army Helmet": "hat-army", "Pirate Hat": "hat-pirate",
     Headphones: "hat-headphones", "Bunny Ears": "hat-bunny", "Cat Ears": "hat-catears",
+    "Wizard Hat": "hat-wizard", "Viking Helmet": "hat-viking",
   },
   face: {
     Skull: "face-skull", Fire: "face-fire", Zombie: "face-zombie",
@@ -809,6 +810,7 @@ const PAINTED: Record<"face" | "hat" | "acc", Record<string, string>> = {
     AirPods: "acc-airpods", Earring: "acc-earring", "Baseball Bat": "acc-bat",
     "Nose Ring": "acc-nosering", Frog: "acc-frog", Snake: "acc-snake",
     "Mini Ghost": "acc-ghost", "Shoulder Raven": "acc-raven",
+    Monocle: "acc-monocle", Katana: "acc-katana", "Floating Cards": "acc-cards",
   },
 };
 
@@ -857,31 +859,30 @@ async function renderNft(id: number, outDir: string): Promise<HoodNft> {
 
   const layers: Layer[] = [{ input: ch.png }];
 
-  // face: painted layer > neon SVG > legacy plate
+  // painted layers ONLY — sticker/plate fallbacks are permanently disabled.
+  // faces additionally allow the neon glow SVG styles; accessories allow
+  // scatter sprites, SVG effects and master-painted chains.
   if (PAINTED.face[face]) {
     layers.push({ input: await paintedLayer(PAINTED.face[face], hood) });
   } else {
     const svg = faceOverlaySvg(face, ch.m.face);
     if (svg) layers.push({ input: await sharp(svg).png().toBuffer() });
-    else {
-      const plate = await facePlateLayer(face, ch.m);
-      if (plate) layers.push(plate);
-    }
+    else if (face !== "Empty Void")
+      throw new Error(`face "${face}" has no painted layer — paint it or remove it from lib/nfts.ts`);
   }
 
-  // accessory: painted layer > legacy sticker/effect
   if (PAINTED.acc[accessory]) {
     layers.push({ input: await paintedLayer(PAINTED.acc[accessory], hood) });
-  } else {
+  } else if (SCATTER_SPRITES[accessory] || ["Fire", "Smoke", "Neon Aura"].includes(accessory)) {
     for (const l of await accessoryLayers(accessory, ch.m)) layers.push(l);
+  } else if (accessory !== "None" && !CHAIN_ACCS.has(accessory)) {
+    throw new Error(`accessory "${accessory}" has no painted layer — paint it or remove it from lib/nfts.ts`);
   }
 
-  // hat: painted layer > legacy sticker
   if (PAINTED.hat[hat]) {
     layers.push({ input: await paintedLayer(PAINTED.hat[hat], hood) });
-  } else {
-    const hatL = await hatLayer(hat, ch.m);
-    if (hatL) layers.push(hatL);
+  } else if (hat !== "None") {
+    throw new Error(`hat "${hat}" has no painted layer — paint it or remove it from lib/nfts.ts`);
   }
 
   const composed = await sharp(bg)

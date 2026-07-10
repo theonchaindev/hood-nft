@@ -78,6 +78,8 @@ export const HOODS: WeightedTrait[] = [
   w("Crystal", 0.8), w("Galaxy", 0.7), w("Rainbow", 0.6),
 ];
 
+// NOTE: only traits with painted layers (or pure glow/effect overlays) are
+// listed. Items awaiting Meshy credits to be painted live in lib/pending-traits.md
 export const FACES: WeightedTrait[] = [
   w("Glowing Eyes", 6), w("Empty Void", 5.5), w("Neon Smile", 5),
   w("X Eyes", 4.8), w("Happy LED", 4.5), w("Stitched Smile", 4.2),
@@ -87,10 +89,8 @@ export const FACES: WeightedTrait[] = [
   w("Smoke", 2.2), w("Fire", 2.1), w("Ice", 2), w("Ninja", 2),
   w("Pumpkin", 1.9), w("Vampire", 1.8), w("Alien", 1.8), w("Rainbow", 1.7),
   w("Laser Eyes", 1.6), w("TV Screen", 1.5), w("Matrix Code", 1.5),
-  w("Robot", 1.4), w("Cyborg", 1.3), w("Demon", 1.2), w("Glitch", 1.2),
-  w("Purple Flames", 1.1), w("Blue Flames", 1.1), w("Crystal", 1),
-  w("Bitcoin Eyes", 0.9), w("Solana Eyes", 0.9), w("Samurai", 0.8),
-  w("Gold Drip", 0.7), w("Galaxy", 0.6), w("Cosmic", 0.5),
+  w("Robot", 1.4), w("Cyborg", 1.3), w("Demon", 1.2),
+  w("Bitcoin Eyes", 0.9), w("Solana Eyes", 0.9),
 ];
 
 export const HATS: WeightedTrait[] = [
@@ -99,13 +99,9 @@ export const HATS: WeightedTrait[] = [
   w("Chef Hat", 3), w("Construction Helmet", 3), w("Police Cap", 2.8),
   w("Santa Hat", 2.6), w("Graduation Cap", 2.5), w("Top Hat", 2.4),
   w("Army Helmet", 2.4), w("Pirate Hat", 2.2), w("Headphones", 2.2),
-  w("Bunny Ears", 2), w("Cat Ears", 2), w("Mushroom", 1.8),
-  w("Wizard Hat", 1.7), w("Viking Helmet", 1.6), w("Ninja Hood", 1.5),
-  w("Pumpkin", 1.4), w("Laurel Wreath", 1.3), w("Devil Horns", 1.2),
-  w("Dragon Horns", 1.1), w("Samurai Helmet", 1), w("Astronaut Helmet", 0.9),
-  w("Solana Cap", 0.9), w("Bitcoin Cap", 0.9), w("Unicorn Horn", 0.8),
-  w("UFO", 0.7), w("Halo", 0.7), w("Crown", 0.6), w("Flame Crown", 0.5),
-  w("Crystal Crown", 0.4),
+  w("Bunny Ears", 2), w("Cat Ears", 2),
+  w("Wizard Hat", 1.7), w("Viking Helmet", 1.6),
+  w("Crown", 0.8),
 ];
 
 export const ACCESSORIES: WeightedTrait[] = [
@@ -116,12 +112,12 @@ export const ACCESSORIES: WeightedTrait[] = [
   w("Baseball Bat", 2.2), w("Pixel Glasses", 2.2), w("Nose Ring", 2),
   w("Frog", 1.9), w("Snake", 1.8), w("Mini Ghost", 1.8),
   w("Shoulder Raven", 1.7), w("Monocle", 1.6), w("Floating Cards", 1.5),
-  w("Katana", 1.5), w("VR Headset", 1.4), w("Floating Cubes", 1.3),
+  w("Katana", 1.5),
   w("Hearts", 1.3), w("Stars", 1.2), w("Skulls", 1.2), w("Smoke", 1.1),
   w("Ice Aura", 1.1), w("Emerald Chain", 1), w("Rose Gold Chain", 1),
   w("Money Rain", 0.9), w("Lightning", 0.9), w("Fire", 0.8),
-  w("Neon Aura", 0.8), w("Obsidian Chain", 0.7), w("Solana Pendant", 0.7),
-  w("Bitcoin Pendant", 0.7), w("Diamond Chain", 0.5), w("Rainbow Chain", 0.4),
+  w("Neon Aura", 0.8), w("Obsidian Chain", 0.7),
+  w("Diamond Chain", 0.5), w("Rainbow Chain", 0.4),
 ];
 
 const TRAIT_TABLES = {
