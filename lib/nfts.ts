@@ -86,7 +86,7 @@ export const FACES: WeightedTrait[] = [
   w("Red Eyes", 4), w("Angry LED", 3.8), w("Heart Eyes", 3.5),
   w("Money Eyes", 3.2), w("Spiral Eyes", 3), w("Pixel Face", 2.8),
   w("Skull", 2.6), w("Zombie", 2.5), w("Ghost", 2.4), w("Hollow", 2.3),
-  w("Smoke", 2.2), w("Fire", 2.1), w("Ice", 2), w("Ninja", 2),
+  w("Fire", 2.1), w("Ice", 2), w("Ninja", 2),
   w("Pumpkin", 1.9), w("Vampire", 1.8), w("Alien", 1.8), w("Rainbow", 1.7),
   w("Laser Eyes", 1.6), w("TV Screen", 1.5), w("Matrix Code", 1.5),
   w("Robot", 1.4), w("Cyborg", 1.3), w("Demon", 1.2),
@@ -96,7 +96,7 @@ export const FACES: WeightedTrait[] = [
 export const HATS: WeightedTrait[] = [
   w("None", 22), w("Beanie", 5.5), w("Cap", 5.5), w("Bucket Hat", 4.3),
   w("Cowboy Hat", 3.5), w("Fedora", 3.2),
-  w("Chef Hat", 3), w("Construction Helmet", 3), w("Police Cap", 2.8),
+  w("Construction Helmet", 3), w("Police Cap", 2.8),
   w("Santa Hat", 2.6), w("Graduation Cap", 2.5), w("Top Hat", 2.4),
   w("Army Helmet", 2.4), w("Pirate Hat", 2.2), w("Headphones", 2.2),
   w("Bunny Ears", 2), w("Cat Ears", 2),

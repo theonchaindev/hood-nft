@@ -185,10 +185,10 @@ const HOOD_TEXTURE: Record<string, { sheet: string; cols: number; rows: number; 
   Lava: { sheet: "tex1.png", cols: 3, rows: 2, idx: 5, inset: 0.16, tile: 2 },
   Crystal: { sheet: "tex2.png", cols: 2, rows: 2, idx: 1, inset: 0.14, tile: 2.5 },
   "Louis Vuitton": { sheet: "tex2.png", cols: 2, rows: 2, idx: 3, inset: 0.14, tile: 2 },
-  Galaxy: { sheet: "tex3.png", cols: 2, rows: 2, idx: 0, inset: 0.17, tile: 1 },
-  Cyber: { sheet: "tex3.png", cols: 2, rows: 2, idx: 1, inset: 0.17, tile: 1.5 },
-  Zombie: { sheet: "tex3.png", cols: 2, rows: 2, idx: 2, inset: 0.17, tile: 1.2 },
-  Gucci: { sheet: "tex3.png", cols: 2, rows: 2, idx: 3, inset: 0.17, tile: 1.5 },
+  Galaxy: { sheet: "tex3.png", cols: 2, rows: 2, idx: 0, inset: 0.24, tile: 1 },
+  Cyber: { sheet: "tex3.png", cols: 2, rows: 2, idx: 1, inset: 0.24, tile: 1.5 },
+  Zombie: { sheet: "tex3.png", cols: 2, rows: 2, idx: 2, inset: 0.24, tile: 1.2 },
+  Gucci: { sheet: "tex3.png", cols: 2, rows: 2, idx: 3, inset: 0.24, tile: 1.5 },
 };
 
 const CHAIN_REMAP: Record<string, Remap> = {
@@ -296,8 +296,8 @@ const BG_PLATES: Record<string, { file: string; inset: number; hue: number; sat?
   Ice: { file: "bg-icecave.png", inset: 0.04, hue: 0 },
   Jungle: { file: "bg-jungle.png", inset: 0.04, hue: 0 },
   "Autumn Jungle": { file: "bg-jungle.png", inset: 0.04, hue: -110 },
-  Desert: { file: "bg-desert.png", inset: 0.04, hue: 0 },
-  Ocean: { file: "bg-ocean.png", inset: 0.04, hue: 0 },
+  Desert: { file: "bg-desert.png", inset: 0.17, hue: 0 },
+  Ocean: { file: "bg-ocean.png", inset: 0.14, hue: 0 },
   Matrix: { file: "bg-matrix.png", inset: 0.04, hue: 0 },
   "Red Matrix": { file: "bg-matrix.png", inset: 0.04, hue: 220 },
   Gold: { file: "bg-gold.png", inset: 0.04, hue: 0 },
@@ -305,7 +305,7 @@ const BG_PLATES: Record<string, { file: string; inset: number; hue: number; sat?
   "Amethyst Cave": { file: "bg-diamond.png", inset: 0.04, hue: 60 },
   Clouds: { file: "bg-clouds.png", inset: 0.04, hue: 0 },
   "Sunset Clouds": { file: "bg-clouds.png", inset: 0.04, hue: 160, sat: 1.1 },
-  Castle: { file: "bg-castle.png", inset: 0.04, hue: 0 },
+  Castle: { file: "bg-castle.png", inset: 0.09, hue: 0 },
   Sunset: { file: "bg-sunset.png", inset: 0.04, hue: 0 },
   Synthwave: { file: "bg-synthwave.png", inset: 0.04, hue: 0 },
   "Midnight Synthwave": { file: "bg-synthwave.png", inset: 0.04, hue: 120, bright: 0.85 },
@@ -755,10 +755,12 @@ function faceSvg(style: string, f: Rect): string | null {
         <rect x="${rx}" y="${eyeY - 2}" width="${S - rx}" height="5" fill="#ff1744" opacity="0.55" transform="rotate(6 ${rx} ${eyeY})"/>
         <rect x="0" y="${eyeY - 2}" width="${lx}" height="5" fill="#ff1744" opacity="0.35" transform="rotate(-4 ${lx} ${eyeY})"/>`;
     case "Rainbow": {
+      // bold rainbow arc across the whole face + white glow eyes
       const cols = ["#ff3131", "#ff9f1a", "#f5e642", "#3dff73", "#2ee6ff", "#b44dff"];
+      const rw = f.w * 0.72;
       return cols.map((c, i) =>
-        `<path d="M ${mcx - mw / 2 - i * 6} ${mouthY - 4} Q ${mcx} ${mouthY + 30 + i * 6} ${mcx + mw / 2 + i * 6} ${mouthY - 4}" fill="none" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`
-      ).join("") + dots("#ffffff", e * 0.7);
+        `<path d="M ${mcx - rw / 2} ${mouthY + 14} Q ${mcx} ${mouthY - rw * 0.52 + i * 11} ${mcx + rw / 2} ${mouthY + 14}" fill="none" stroke="${c}" stroke-width="11" stroke-linecap="round"/>`
+      ).join("") + dots("#ffffff", e * 0.8);
     }
     case "Pixel Face": {
       const px = e * 0.8;

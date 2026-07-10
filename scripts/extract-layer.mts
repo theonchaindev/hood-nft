@@ -54,6 +54,52 @@ const isBaseBg = (i: number) =>
   Math.abs(base[i * 3 + 1] - bgRef[1]) <= 14 &&
   Math.abs(base[i * 3 + 2] - bgRef[2]) <= 14;
 
+// Kill whitish low-contrast repaint wisps that hang off the OUTSIDE of the
+// artwork (the AI often leaves pale smudges beside hats/items). A pixel is
+// "weak" if it sits over the flat background with a pale, low-saturation,
+// low-contrast edit. Weak pixels die only if they can be flooded from the
+// transparent outside without crossing a strong pixel — so pale paint that
+// is sealed inside a bold outline (e.g. a white coffee cup) survives.
+const weak = new Uint8Array(S * S);
+for (let i = 0; i < S * S; i++) {
+  if (alpha[i] === 0 || !isBaseBg(i)) continue;
+  const r = edit[i * 3] / 255, g = edit[i * 3 + 1] / 255, b = edit[i * 3 + 2] / 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+  const l = (mx + mn) / 2;
+  const s = mx === mn ? 0 : (mx - mn) / (l > 0.5 ? 2 - mx - mn : mx + mn);
+  const d = Math.max(
+    Math.abs(base[i * 3] - edit[i * 3]),
+    Math.abs(base[i * 3 + 1] - edit[i * 3 + 1]),
+    Math.abs(base[i * 3 + 2] - edit[i * 3 + 2])
+  );
+  if (l > 0.68 && s < 0.32 && d < 70) weak[i] = 1;
+}
+const wq: number[] = [];
+for (let i = 0; i < S * S; i++) {
+  if (!weak[i]) continue;
+  const x = i % S, y = (i / S) | 0;
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+    const nx = x + dx, ny = y + dy;
+    if (nx < 0 || ny < 0 || nx >= S || ny >= S || alpha[ny * S + nx] === 0) {
+      wq.push(i);
+      break;
+    }
+  }
+}
+const wseen = new Uint8Array(S * S);
+for (const i of wq) wseen[i] = 1;
+while (wq.length) {
+  const i = wq.pop()!;
+  alpha[i] = 0;
+  const x = i % S, y = (i / S) | 0;
+  for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+    const nx = x + dx, ny = y + dy;
+    if (nx < 0 || ny < 0 || nx >= S || ny >= S) continue;
+    const ni = ny * S + nx;
+    if (weak[ni] && !wseen[ni]) { wseen[ni] = 1; wq.push(ni); }
+  }
+}
+
 // drop tiny components, and diffuse gray "repaint smudges" that live
 // entirely over the flat background with weak contrast
 const seen = new Uint8Array(S * S);
