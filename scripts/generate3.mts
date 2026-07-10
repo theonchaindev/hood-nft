@@ -783,6 +783,72 @@ function faceOverlaySvg(style: string, f: Rect): Buffer | null {
   </svg>`);
 }
 
+// ---------- painted layers (AI-edited onto the master, pixel-aligned) ----------
+const PAINTED: Record<"face" | "hat" | "acc", Record<string, string>> = {
+  hat: {
+    Beanie: "hat-beanie", Crown: "hat-crown", Cap: "hat-cap",
+    "Bucket Hat": "hat-bucket", "Cowboy Hat": "hat-cowboy", Fedora: "hat-fedora",
+    "Chef Hat": "hat-chef", "Construction Helmet": "hat-construction",
+    "Police Cap": "hat-police", "Santa Hat": "hat-santa",
+    "Graduation Cap": "hat-graduation", "Top Hat": "hat-tophat",
+    "Army Helmet": "hat-army", "Pirate Hat": "hat-pirate",
+    Headphones: "hat-headphones", "Bunny Ears": "hat-bunny", "Cat Ears": "hat-catears",
+  },
+  face: {
+    Skull: "face-skull", Fire: "face-fire", Zombie: "face-zombie",
+    Ghost: "face-ghost", Hollow: "face-hollow", Smoke: "face-smoke",
+    Ice: "face-ice", Ninja: "face-ninja", Pumpkin: "face-pumpkin",
+    Vampire: "face-vampire", Alien: "face-alien", "TV Screen": "face-tv",
+    "Matrix Code": "face-matrix", Robot: "face-robot", Cyborg: "face-cyborg",
+    Demon: "face-demon",
+  },
+  acc: {
+    Cigar: "acc-cigar", Sunglasses: "acc-sunglasses", "Pixel Glasses": "acc-pixelglasses",
+    Coffee: "acc-coffee", Lollipop: "acc-lollipop", Bubblegum: "acc-bubblegum",
+    Rose: "acc-rose", Pipe: "acc-pipe", "Energy Drink": "acc-energy",
+    AirPods: "acc-airpods", Earring: "acc-earring", "Baseball Bat": "acc-bat",
+    "Nose Ring": "acc-nosering", Frog: "acc-frog", Snake: "acc-snake",
+    "Mini Ghost": "acc-ghost", "Shoulder Raven": "acc-raven",
+  },
+};
+
+// painted layers carry purple-tinted contact shadows from the master;
+// remap those pixels with the active hood transform so they blend in
+const paintedCache = new Map<string, Promise<Buffer>>();
+
+function paintedLayer(name: string, hood: string): Promise<Buffer> {
+  const key = `${name}|${hood}`;
+  if (!paintedCache.has(key)) {
+    paintedCache.set(key, (async () => {
+      const { data } = await sharp(`assets/layers/${name}.png`)
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      const hoodT = HOOD_REMAP[hood];
+      const isTex = !!HOOD_TEXTURE[hood];
+      if (hood !== "Purple") {
+        for (let i = 0; i < S * S; i++) {
+          if (data[i * 4 + 3] === 0) continue;
+          const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2];
+          const [h, s, l] = rgbToHsl(r, g, b);
+          if (s > 0.18 && h >= 245 && h <= 315) {
+            let nr: number, ng: number, nb: number;
+            if (isTex || !hoodT || hoodT.hue === null) {
+              // textured/unknown hood: neutralize to a gray shadow
+              [nr, ng, nb] = hslToRgb(0, 0, l * 0.9);
+            } else {
+              const hue = hoodT.sweep ? 180 : hoodT.hue;
+              [nr, ng, nb] = hslToRgb(hue, Math.min(1, s * hoodT.satMul), Math.min(0.97, l * hoodT.lightMul));
+            }
+            data[i * 4] = nr; data[i * 4 + 1] = ng; data[i * 4 + 2] = nb;
+          }
+        }
+      }
+      return sharp(data, { raw: { width: S, height: S, channels: 4 } }).png().toBuffer();
+    })());
+  }
+  return paintedCache.get(key)!;
+}
+
 // ---------- main ----------
 async function renderNft(id: number, outDir: string): Promise<HoodNft> {
   const nft = getNft(id);
@@ -791,15 +857,32 @@ async function renderNft(id: number, outDir: string): Promise<HoodNft> {
 
   const layers: Layer[] = [{ input: ch.png }];
 
-  const plate = await facePlateLayer(face, ch.m);
-  if (plate) layers.push(plate);
-  const svg = faceOverlaySvg(face, ch.m.face);
-  if (svg) layers.push({ input: await sharp(svg).png().toBuffer() });
+  // face: painted layer > neon SVG > legacy plate
+  if (PAINTED.face[face]) {
+    layers.push({ input: await paintedLayer(PAINTED.face[face], hood) });
+  } else {
+    const svg = faceOverlaySvg(face, ch.m.face);
+    if (svg) layers.push({ input: await sharp(svg).png().toBuffer() });
+    else {
+      const plate = await facePlateLayer(face, ch.m);
+      if (plate) layers.push(plate);
+    }
+  }
 
-  for (const l of await accessoryLayers(accessory, ch.m)) layers.push(l);
+  // accessory: painted layer > legacy sticker/effect
+  if (PAINTED.acc[accessory]) {
+    layers.push({ input: await paintedLayer(PAINTED.acc[accessory], hood) });
+  } else {
+    for (const l of await accessoryLayers(accessory, ch.m)) layers.push(l);
+  }
 
-  const hatL = await hatLayer(hat, ch.m);
-  if (hatL) layers.push(hatL);
+  // hat: painted layer > legacy sticker
+  if (PAINTED.hat[hat]) {
+    layers.push({ input: await paintedLayer(PAINTED.hat[hat], hood) });
+  } else {
+    const hatL = await hatLayer(hat, ch.m);
+    if (hatL) layers.push(hatL);
+  }
 
   const composed = await sharp(bg)
     .composite(layers.map((l) => ({ input: l.input, left: l.left, top: l.top, blend: (l.blend ?? "over") as any })))
