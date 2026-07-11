@@ -1,166 +1,193 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
-import { getAllNfts, getNft, HoodNft, RARITY_COLORS, TOTAL_SUPPLY } from "@/lib/nfts";
-import { useHood } from "@/context/HoodContext";
+import { getAllNfts, getNft, HoodNft } from "@/lib/nfts";
+import { CURATED } from "@/lib/curated";
+import { MAGIC_EDEN_URL } from "@/lib/site";
 import NftImage from "@/components/NftImage";
-import NftCard from "@/components/NftCard";
-import MintModal from "@/components/MintModal";
-import Ticker from "@/components/Ticker";
+import Marquee from "@/components/Marquee";
+import Lightbox from "@/components/Lightbox";
 
-const FEATURED_IDS = [123, 276, 430, 500, 537, 666, 758, 778];
-const HERO_ID = 773;
+const HERO_TRIO = [500, 773, 758]; // legendaries fanned in the hero
+
+// deterministic shuffle so server and client render identically
+function shuffle<T>(arr: T[], seed: number): T[] {
+  const out = [...arr];
+  let s = seed;
+  for (let i = out.length - 1; i > 0; i--) {
+    s = (s * 9301 + 49297) % 233280;
+    const j = Math.floor((s / 233280) * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
 
 export default function Home() {
-  const { minted, wallet } = useHood();
   const [selected, setSelected] = useState<HoodNft | null>(null);
+  const [chosenPage, setChosenPage] = useState(0);
 
-  const featured = FEATURED_IDS.map((id) => getNft(id));
-  const hero = getNft(HERO_ID);
+  const curated = useMemo(() => CURATED.map((id) => getNft(id)), []);
+  const legends = useMemo(() => getAllNfts().filter((n) => n.rarity === "Legendary"), []);
 
-  const rarityCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const n of getAllNfts()) counts[n.rarity] = (counts[n.rarity] ?? 0) + 1;
-    return counts;
-  }, []);
+  const bands = useMemo(() => {
+    const s = shuffle(curated, 7);
+    const third = Math.ceil(s.length / 3);
+    return [s.slice(0, third), s.slice(third, third * 2), s.slice(third * 2)];
+  }, [curated]);
 
-  const mintedCount = Object.keys(minted).length;
+  const PER_PAGE = 12;
+  const chosenPages = Math.ceil(curated.length / PER_PAGE);
+  const chosen = curated.slice(chosenPage * PER_PAGE, chosenPage * PER_PAGE + PER_PAGE);
 
   return (
     <main>
       {/* hero */}
-      <section className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-14 md:grid-cols-2 md:pt-20">
+      <section className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-16 md:grid-cols-2 md:pt-24">
         <div>
           <p className="mb-4 inline-block rounded-full border border-hood/40 bg-panel px-4 py-1.5 text-xs font-bold tracking-widest text-hood-bright">
-            MINT IS LIVE · SOLANA
+            1,000 OPERATORS · SOLANA
           </p>
           <h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl">
-            Investing was for them.
+            Faces hidden.
             <br />
-            <span className="text-hood">The HOODZ</span> are for you.
+            <span className="text-hood">Vibes immaculate.</span>
           </h1>
           <p className="mt-5 max-w-md text-lg text-mute">
-            1,000 hooded operators trading from the shadows. Zero commission,
-            zero suits, 100% on-chain conviction. Pick your operator and mint
-            the movement.
+            HOODZ is a collection of 1,000 hooded operators — hand-built
+            characters with painted hats, faces, chains and materials.
+            Minting exclusively on Magic Eden.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/mint"
+            <a
+              href={MAGIC_EDEN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="animate-pulse-glow rounded-full bg-hood px-8 py-3.5 font-bold text-ink transition-transform hover:scale-105"
             >
-              Start Minting
-            </Link>
+              Mint on Magic Eden
+            </a>
             <a
-              href="#rarity"
+              href="#chosen"
               className="rounded-full border border-line bg-panel px-8 py-3.5 font-bold text-white transition-colors hover:border-hood/50"
             >
-              Rarity Tiers
+              Browse the Chosen
             </a>
           </div>
-
-          <div className="mt-10 grid max-w-md grid-cols-3 gap-3">
-            {[
-              { label: "Supply", value: TOTAL_SUPPLY.toLocaleString() },
-              { label: "Minted", value: mintedCount.toLocaleString() },
-              { label: "Floor", value: "0.25 SOL" },
-            ].map((s) => (
-              <div key={s.label} className="rounded-2xl border border-line bg-panel px-4 py-3">
-                <p className="font-mono text-xl font-bold text-hood-bright">{s.value}</p>
-                <p className="text-xs text-mute">{s.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-sm">
-          <div className="absolute -inset-8 rounded-full bg-hood/10 blur-3xl" />
-          <button
-            onClick={() => setSelected(hero)}
-            className="animate-float relative block w-full overflow-hidden rounded-3xl border border-hood/30 shadow-[0_20px_80px_rgba(0,200,5,0.25)]"
-          >
-            <NftImage nft={hero} className="block w-full" />
-          </button>
-          <p className="mt-3 text-center text-sm text-mute">
-            {hero.name} · <span style={{ color: RARITY_COLORS[hero.rarity] }}>{hero.rarity}</span>
-          </p>
+        <div className="relative mx-auto flex w-full max-w-md items-center justify-center py-6">
+          <div className="absolute -inset-10 rounded-full bg-hood/10 blur-3xl" />
+          {HERO_TRIO.map((id, i) => {
+            const n = getNft(id);
+            return (
+              <button
+                key={id}
+                onClick={() => setSelected(n)}
+                className="animate-float relative -mx-8 block w-2/5 overflow-hidden rounded-2xl border border-hood/40 shadow-[0_20px_60px_rgba(162,89,255,0.3)] transition-transform hover:z-10 hover:scale-110"
+                style={{
+                  "--tilt": `${(i - 1) * 8}deg`,
+                  zIndex: i === 1 ? 5 : 1,
+                  animationDelay: `${i * 0.6}s`,
+                  scale: i === 1 ? "1.25" : "1",
+                } as React.CSSProperties}
+              >
+                <NftImage nft={n} className="block w-full" />
+              </button>
+            );
+          })}
         </div>
       </section>
 
-      <Ticker />
+      {/* marquee bands */}
+      <section className="space-y-4 border-y border-line bg-panel/40 py-6">
+        <Marquee nfts={bands[0]} speed={80} onSelect={setSelected} />
+        <Marquee nfts={bands[1]} speed={95} reverse onSelect={setSelected} />
+        <Marquee nfts={bands[2]} speed={70} onSelect={setSelected} />
+      </section>
 
-      {/* featured */}
-      <section className="mx-auto max-w-6xl px-4 pt-16">
-        <div className="mb-6 flex items-end justify-between">
+      {/* the chosen */}
+      <section id="chosen" className="mx-auto max-w-6xl px-4 pt-20">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold">Trending Operators</h2>
-            <p className="mt-1 text-mute">Most-watched HOODZ this hour.</p>
+            <h2 className="text-3xl font-extrabold">The Chosen 200</h2>
+            <p className="mt-1 text-mute">Hand-picked favourites from the vault.</p>
           </div>
-          <Link href="/mint" className="text-sm font-bold text-hood-bright hover:underline">
-            View all 1,000 →
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {featured.map((n) => (
-            <NftCard
-              key={n.id}
-              nft={n}
-              owned={minted[n.id] === wallet && !!wallet}
-              mintedByOther={!!minted[n.id] && minted[n.id] !== wallet}
-              onClick={() => setSelected(n)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* rarity tiers */}
-      <section id="rarity" className="mx-auto max-w-6xl px-4 pt-20">
-        <h2 className="text-3xl font-extrabold">Rarity Tiers</h2>
-        <p className="mt-1 text-mute">
-          Every HOODZ is generated from weighted traits — backgrounds, hood
-          materials, faces, hats and accessories. Rarer combos, higher tier.
-        </p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-5">
-          {(["Common", "Uncommon", "Rare", "Epic", "Legendary"] as const).map((r) => (
-            <div
-              key={r}
-              className="rounded-2xl border border-line bg-panel p-4 text-center transition-colors hover:border-hood/40"
-              style={{ borderTopColor: RARITY_COLORS[r], borderTopWidth: 3 }}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setChosenPage((p) => (p - 1 + chosenPages) % chosenPages)}
+              className="rounded-full border border-line bg-panel px-4 py-2 font-bold text-mute transition-colors hover:border-hood/50 hover:text-white"
+              aria-label="Previous"
             >
-              <p className="font-bold" style={{ color: RARITY_COLORS[r] }}>{r}</p>
-              <p className="mt-1 font-mono text-2xl font-bold">{rarityCounts[r] ?? 0}</p>
-              <p className="text-xs text-mute">of {TOTAL_SUPPLY}</p>
-            </div>
+              ←
+            </button>
+            <span className="text-sm text-mute tabular-nums">
+              {chosenPage + 1} / {chosenPages}
+            </span>
+            <button
+              onClick={() => setChosenPage((p) => (p + 1) % chosenPages)}
+              className="rounded-full border border-line bg-panel px-4 py-2 font-bold text-mute transition-colors hover:border-hood/50 hover:text-white"
+              aria-label="Next"
+            >
+              →
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+          {chosen.map((n) => (
+            <button
+              key={n.id}
+              onClick={() => setSelected(n)}
+              className="group overflow-hidden rounded-xl border border-line transition-all hover:-translate-y-1 hover:border-hood/60"
+            >
+              <NftImage nft={n} className="block w-full" />
+            </button>
           ))}
         </div>
       </section>
 
-      {/* how it works */}
-      <section className="mx-auto max-w-6xl px-4 pt-20">
-        <h2 className="text-3xl font-extrabold">Zero-commission minting</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
+      {/* legends */}
+      <section id="legends" className="mx-auto max-w-6xl px-4 pt-20">
+        <h2 className="text-3xl font-extrabold">
+          The <span className="text-gold">Legendary</span> Ten
+        </h2>
+        <p className="mt-1 text-mute">Rarest trait combos in the collection. Only one of each will ever exist.</p>
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          {legends.map((n) => (
+            <button
+              key={n.id}
+              onClick={() => setSelected(n)}
+              className="group overflow-hidden rounded-2xl border border-gold/30 bg-panel text-left transition-all hover:-translate-y-1 hover:border-gold/70 hover:shadow-[0_8px_40px_rgba(245,180,0,0.2)]"
+            >
+              <NftImage nft={n} className="block w-full" />
+              <div className="flex items-center justify-between px-3 py-2.5">
+                <span className="text-xs font-bold">{n.name}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gold">Legendary</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* about */}
+      <section id="about" className="mx-auto max-w-6xl px-4 pt-20">
+        <div className="grid gap-4 md:grid-cols-3">
           {[
             {
-              step: "01",
-              title: "Connect",
-              body: "Link your Phantom wallet in one click. No account, no KYC, no waiting for market open.",
+              title: "Painted, not pasted",
+              body: "Every hat, face and chain is painted onto the character with proper perspective and shadows — then composed into 1,000 unique operators.",
             },
             {
-              step: "02",
-              title: "Pick your operator",
-              body: "Browse all 1,000 HOODZ with live trait and rarity data. Filter by tier, hunt the Legendaries.",
+              title: "30 materials, 45 worlds",
+              body: "Hoods in camo, denim, galaxy, lava, gold and designer fabrics. Backdrops from lightning storms to synthwave suns and diamond caves.",
             },
             {
-              step: "03",
-              title: "Mint & hold",
-              body: "Confirm the order and your HOODZ lands in your portfolio. Diamond hands optional but encouraged.",
+              title: "Minting on Magic Eden",
+              body: "No mint site, no gas wars here — this is the gallery. The collection drops exclusively on Magic Eden.",
             },
-          ].map((s) => (
-            <div key={s.step} className="rounded-2xl border border-line bg-panel p-6">
-              <p className="font-mono text-sm font-bold text-hood">{s.step}</p>
-              <h3 className="mt-2 text-xl font-bold">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-mute">{s.body}</p>
+          ].map((c) => (
+            <div key={c.title} className="rounded-2xl border border-line bg-panel p-6">
+              <h3 className="text-xl font-bold">{c.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-mute">{c.body}</p>
             </div>
           ))}
         </div>
@@ -170,20 +197,22 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 pt-20">
         <div className="relative overflow-hidden rounded-3xl border border-hood/30 bg-panel p-10 text-center md:p-16">
           <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hood/15 blur-3xl" />
-          <h2 className="relative text-4xl font-black">The market never sleeps. Neither do the HOODZ.</h2>
+          <h2 className="relative text-4xl font-black">Pick your operator.</h2>
           <p className="relative mx-auto mt-3 max-w-lg text-mute">
-            {TOTAL_SUPPLY - mintedCount} operators still unminted. When they&apos;re gone, they&apos;re gone.
+            1,000 HOODZ. 10 Legendaries. Zero faces.
           </p>
-          <Link
-            href="/mint"
+          <a
+            href={MAGIC_EDEN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="relative mt-8 inline-block rounded-full bg-hood px-10 py-4 text-lg font-bold text-ink transition-transform hover:scale-105"
           >
-            Mint Yours
-          </Link>
+            Mint on Magic Eden
+          </a>
         </div>
       </section>
 
-      {selected && <MintModal nft={selected} onClose={() => setSelected(null)} />}
+      {selected && <Lightbox nft={selected} onClose={() => setSelected(null)} />}
     </main>
   );
 }

@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hood: #00c805;
-  --color-hood-bright: #0aff5e;
-  --color-hood-dim: #00930a;
-  --color-ink: #060907;
-  --color-panel: #0d1210;
-  --color-panel-2: #131a16;
-  --color-line: #1f2a24;
-  --color-mute: #8c9691;
-  --color-loss: #ff5000;
+  --color-hood: #a259ff;
+  --color-hood-bright: #c77dff;
+  --color-hood-dim: #6b2fd6;
+  --color-volt: #00ff85;
+  --color-ink: #0a0712;
+  --color-panel: #140d1e;
+  --color-panel-2: #1c1229;
+  --color-line: #261a38;
+  --color-mute: #a294bd;
   --color-gold: #f5b400;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   background: var(--color-ink);
-  color: #eef2ef;
+  color: #f0ecf7;
   font-family: var(--font-sans);
 }
 
 ::selection {
-  background: #00c805;
-  color: #060907;
+  background: #a259ff;
+  color: #0a0712;
 }
 
 @keyframes marquee {
@@ -31,12 +31,21 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee var(--marquee-speed, 60s) linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee var(--marquee-speed, 60s) linear infinite reverse;
+}
+
+.marquee-paused:hover .animate-marquee,
+.marquee-paused:hover .animate-marquee-reverse {
+  animation-play-state: paused;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-12px) rotate(var(--tilt, 0deg)); }
 }
 
 .animate-float {
@@ -53,8 +62,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 24px rgba(0, 200, 5, 0.35); }
-  50% { box-shadow: 0 0 48px rgba(0, 200, 5, 0.65); }
+  0%, 100% { box-shadow: 0 0 24px rgba(162, 89, 255, 0.35); }
+  50% { box-shadow: 0 0 48px rgba(162, 89, 255, 0.65); }
 }
 
 .animate-pulse-glow {
