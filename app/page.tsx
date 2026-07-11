@@ -83,7 +83,7 @@ export default function Home() {
               <button
                 key={id}
                 onClick={() => setSelected(n)}
-                className="animate-float relative -mx-8 block w-2/5 overflow-hidden rounded-2xl border border-hood/40 shadow-[0_20px_60px_rgba(162,89,255,0.3)] transition-transform hover:z-10 hover:scale-110"
+                className="animate-float relative -mx-8 block w-2/5 overflow-hidden rounded-2xl border border-hood/40 shadow-[0_20px_60px_rgba(0,200,5,0.3)] transition-transform hover:z-10 hover:scale-110"
                 style={{
                   "--tilt": `${(i - 1) * 8}deg`,
                   zIndex: i === 1 ? 5 : 1,

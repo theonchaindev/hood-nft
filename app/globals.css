@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hood: #a259ff;
-  --color-hood-bright: #c77dff;
-  --color-hood-dim: #6b2fd6;
+  --color-hood: #00c805;
+  --color-hood-bright: #0aff5e;
+  --color-hood-dim: #00930a;
   --color-volt: #00ff85;
-  --color-ink: #0a0712;
-  --color-panel: #140d1e;
-  --color-panel-2: #1c1229;
-  --color-line: #261a38;
-  --color-mute: #a294bd;
+  --color-ink: #060907;
+  --color-panel: #0d1210;
+  --color-panel-2: #131a16;
+  --color-line: #1f2a24;
+  --color-mute: #8c9691;
   --color-gold: #f5b400;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   background: var(--color-ink);
-  color: #f0ecf7;
+  color: #eef2ef;
   font-family: var(--font-sans);
 }
 
 ::selection {
-  background: #a259ff;
-  color: #0a0712;
+  background: #00c805;
+  color: #060907;
 }
 
 @keyframes marquee {
@@ -62,8 +62,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 24px rgba(162, 89, 255, 0.35); }
-  50% { box-shadow: 0 0 48px rgba(162, 89, 255, 0.65); }
+  0%, 100% { box-shadow: 0 0 24px rgba(0, 200, 5, 0.35); }
+  50% { box-shadow: 0 0 48px rgba(0, 200, 5, 0.65); }
 }
 
 .animate-pulse-glow {
