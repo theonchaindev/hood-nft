@@ -40,7 +40,7 @@ export default function Home() {
       <section className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-16 md:grid-cols-2 md:pt-24">
         <div>
           <p className="mb-4 inline-block rounded-full border border-hood/40 bg-panel px-4 py-1.5 text-xs font-bold tracking-widest text-hood-bright">
-            1,000 OPERATORS · SOLANA
+            200 HOODS ON CHAIN · SOLANA
           </p>
           <h1 className="text-5xl font-black leading-[1.05] tracking-tight md:text-6xl">
             THE HOOD
@@ -48,9 +48,9 @@ export default function Home() {
             <span className="text-hood">STAYS ON.</span>
           </h1>
           <p className="mt-5 max-w-md text-lg text-mute">
-            HOODZ is a collection of 1,000 hooded operators — hand-built
-            characters with painted hats, faces, chains and materials.
-            Minting exclusively on Magic Eden.
+            HOODZ is a collection of 200 hand-built characters with painted
+            hats, faces, chains and materials. Minting exclusively on Magic
+            Eden.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
@@ -106,7 +106,7 @@ export default function Home() {
           {[
             {
               title: "Painted, not pasted",
-              body: "Every hat, face and chain is painted onto the character with proper perspective and shadows — then composed into 1,000 unique operators.",
+              body: "Every hat, face and chain is painted onto the character with proper perspective and shadows — then composed into 200 unique HOODZ.",
             },
             {
               title: "30 materials, 45 worlds",
@@ -129,9 +129,9 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 pt-20">
         <div className="relative overflow-hidden rounded-3xl border border-hood/30 bg-panel p-10 text-center md:p-16">
           <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-hood/15 blur-3xl" />
-          <h2 className="relative text-4xl font-black">Pick your operator.</h2>
+          <h2 className="relative text-4xl font-black">Pick your HOODZ.</h2>
           <p className="relative mx-auto mt-3 max-w-lg text-mute">
-            1,000 HOODZ. 10 Legendaries. Zero faces.
+            200 HOODZ. Zero faces.
           </p>
           <a
             href={MAGIC_EDEN_URL}

@@ -17,7 +17,7 @@ export default function Nav() {
             <circle cx="13.4" cy="14" r="1.4" fill="#0aff5e" />
             <circle cx="18.6" cy="14" r="1.4" fill="#0aff5e" />
           </svg>
-          <span className="text-lg font-extrabold tracking-tight">HOODZ</span>
+          <span className="text-lg font-extrabold tracking-tight">HOODZ COLLECTION</span>
         </Link>
 
         <div className="flex items-center gap-3">

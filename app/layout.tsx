@@ -6,9 +6,9 @@ import Nav from "@/components/Nav";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "HOODZ — 1,000 Hooded Operators",
+  title: "HOODZ — The Hood Stays On",
   description:
-    "HOODZ is a collection of 1,000 hooded operators on Solana. Minting on Magic Eden.",
+    "HOODZ — 200 hoods on chain. Minting exclusively on Magic Eden.",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
         <Nav />
         <div className="flex-1">{children}</div>
         <footer className="border-t border-line mt-24 py-10 text-center text-sm text-mute">
-          <p>HOODZ — 1,000 hooded operators. Minting exclusively on Magic Eden.</p>
+          <p>HOODZ — 200 hoods on chain. Minting exclusively on Magic Eden.</p>
         </footer>
       </body>
     </html>
