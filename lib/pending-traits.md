@@ -21,3 +21,4 @@ Re-paint needed (first attempt too weak):
 - Smoke face (flat gray mask instead of wispy smoke)
 
 Removed by user preference (do NOT re-add): Rose, Floating Cards, Coffee, Lollipop
+Also removed by user preference (do NOT re-add): Energy Drink, Monocle, Mini Ghost, Ghost face

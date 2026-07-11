@@ -9,7 +9,7 @@ import NftCard from "@/components/NftCard";
 import MintModal from "@/components/MintModal";
 import Ticker from "@/components/Ticker";
 
-const FEATURED_IDS = [123, 276, 430, 502, 537, 573, 758, 896];
+const FEATURED_IDS = [123, 276, 430, 537, 666, 758, 778, 896];
 const HERO_ID = 773;
 
 export default function Home() {
