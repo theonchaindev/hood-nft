@@ -11,11 +11,11 @@ export default function Nav() {
           <svg viewBox="0 0 32 32" className="h-8 w-8">
             <path
               d="M16 3 C10 4.5 6.5 9 5.5 14 C4.5 20 3.5 25 3 29 L 29 29 C 28.5 25 27.5 20 26.5 14 C 25.5 9 22 4.5 16 3 Z"
-              fill="#00c805"
+              fill="#d2ff03"
             />
             <ellipse cx="16" cy="14.5" rx="6" ry="7" fill="#060907" />
-            <circle cx="13.4" cy="14" r="1.4" fill="#0aff5e" />
-            <circle cx="18.6" cy="14" r="1.4" fill="#0aff5e" />
+            <circle cx="13.4" cy="14" r="1.4" fill="#e3ff54" />
+            <circle cx="18.6" cy="14" r="1.4" fill="#e3ff54" />
           </svg>
           <span className="text-lg font-extrabold tracking-tight">HOODZ COLLECTION</span>
         </Link>

@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-hood: #00c805;
-  --color-hood-bright: #0aff5e;
-  --color-hood-dim: #00930a;
+  --color-hood: #d2ff03;
+  --color-hood-bright: #e3ff54;
+  --color-hood-dim: #9cbf00;
   --color-volt: #00ff85;
   --color-ink: #060907;
   --color-panel: #0d1210;
@@ -21,7 +21,7 @@ body {
 }
 
 ::selection {
-  background: #00c805;
+  background: #d2ff03;
   color: #060907;
 }
 
@@ -62,8 +62,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 24px rgba(0, 200, 5, 0.35); }
-  50% { box-shadow: 0 0 48px rgba(0, 200, 5, 0.65); }
+  0%, 100% { box-shadow: 0 0 24px rgba(210, 255, 3, 0.35); }
+  50% { box-shadow: 0 0 48px rgba(210, 255, 3, 0.55); }
 }
 
 .animate-pulse-glow {
