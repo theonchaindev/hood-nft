@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MAGIC_EDEN_URL } from "@/lib/site";
+import { MAGIC_EDEN_URL, X_URL } from "@/lib/site";
 
 export default function Nav() {
   return (
@@ -20,18 +20,27 @@ export default function Nav() {
           <span className="text-lg font-extrabold tracking-tight">HOODZ</span>
         </Link>
 
-        <div className="hidden items-center gap-5 text-sm font-medium text-mute sm:flex">
-          <a href="#about" className="hover:text-white">About</a>
+        <div className="flex items-center gap-3">
+          <a
+            href={X_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="HOODZ on X"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-panel text-mute transition-colors hover:border-hood/60 hover:text-white"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a
+            href={MAGIC_EDEN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-hood px-5 py-2 text-sm font-bold text-ink transition-transform hover:scale-105"
+          >
+            Mint on Magic Eden
+          </a>
         </div>
-
-        <a
-          href={MAGIC_EDEN_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-hood px-5 py-2 text-sm font-bold text-ink transition-transform hover:scale-105"
-        >
-          Mint on Magic Eden
-        </a>
       </div>
     </nav>
   );
