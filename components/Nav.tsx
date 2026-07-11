@@ -21,8 +21,6 @@ export default function Nav() {
         </Link>
 
         <div className="hidden items-center gap-5 text-sm font-medium text-mute sm:flex">
-          <a href="#chosen" className="hover:text-white">The Chosen</a>
-          <a href="#legends" className="hover:text-white">Legends</a>
           <a href="#about" className="hover:text-white">About</a>
         </div>
 
